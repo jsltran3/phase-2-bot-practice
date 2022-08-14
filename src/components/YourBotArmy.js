@@ -1,21 +1,29 @@
-import React from "react";
-import BotCard from "./BotCard";
+import React, { useEffect } from "react";
+import BotCard from "./BotCard"
 
-function YourBotArmy({army, onDeleteBot }) {
-  //your bot army code here...
-    // console.log("in BotsArmy", army)
-    const armyList = army.map((bot) => {
-    return <BotCard key={bot.id} bot={bot} onDeleteBot={onDeleteBot}/>
-    
-      })
-      
+function YourBotArmy({ alreadyDrafted=[], getBot }) {
+
+
+const armyBots = getBot.map(bot => 
+  <BotCard 
+  bot={bot}
+  id={bot.id}
+  key={bot.id}
+/>
+)
+
+// const displayDraftedBots = alreadyDrafted.map((bot) => bot)
+const displayDraftedBots = alreadyDrafted.map(bot => 
+  <BotCard bot={bot} id={bot.id} key={bot.id} />
+  )
+
 
   return (
     <div className="ui segment inverted olive bot-army">
       <div className="ui five column grid">
-        <div className="row bot-army-row"> 
+        <div className="row bot-army-row">
           Your Bot Army
-          {armyList}
+          {displayDraftedBots}
         </div>
       </div>
     </div>
