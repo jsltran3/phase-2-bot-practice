@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const botTypeClasses = {
   Assault: "icon military",
@@ -9,32 +9,40 @@ const botTypeClasses = {
   Captain: "icon star",
 };
 
-function BotCard({ bot, onDraftBot, onDeleteBot }) {
- const {id, name, health, damage, armor } = bot
-    function handleDraftBotClick(){
-        onDraftBot(bot)
+function BotCard({ bot, handleBotClick }) {
+  // const [disable, setDisable] = useState(false);
+  const {id, name, health, damage, armor, drafted } = bot;
+
+  function handleDraftBotClick(){
+    
+    if (!drafted) {
+      handleBotClick(bot);
+    } else {
+      alert("Already drafted");
     }
-  
-    function handleDeleteBotClick(){
-        fetch(`http://localhost:3001/bots/${id}`, {
-            method: "DELETE",
-        });
-        onDeleteBot(id);
-    }
+ 
+  }
+
+  function botDraftClick(event){
+    
+    handleDraftBotClick(event.target.value);
+
+  }
+
 
   return (
     <div className="ui column">
       <div
         className="ui card"
         key={bot.id}
-        onClick={(e) => handleDraftBotClick(e.target.value)}
+        onClick={handleDraftBotClick}
       >
         <div className="image">
           <img alt="oh no!" src={bot.avatar_url} />
         </div>
         <div className="content">
           <div className="header">
-            {name}
+            {bot.ame}
             <i className={botTypeClasses[bot.bot_class]} />
           </div>
           <div className="meta text-wrap">
@@ -44,24 +52,23 @@ function BotCard({ bot, onDraftBot, onDeleteBot }) {
         <div className="extra content">
           <span>
             <i className="icon heartbeat" />
-            {health}
+            {bot.health}
           </span>
 
           <span>
             <i className="icon lightning" />
-            {damage}
+            {bot.damage}
           </span>
           <span>
             <i className="icon shield" />
-            {armor}
+            {bot.armor}
           </span>
           <span>
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={(e) =>
-                 
-                    handleDeleteBotClick(e.target.value)
+                onClick={() =>
+                  console.log("add code to connect event listener")
                 }
               >
                 x
